@@ -1,0 +1,21 @@
+group 'uk.co.reillyfamily.game'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "uk.co.reillyfamily.game.Main"
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project('lwjglwrapper')
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    runtime group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
+}
