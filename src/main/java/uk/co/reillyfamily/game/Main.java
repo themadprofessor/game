@@ -2,8 +2,7 @@ package uk.co.reillyfamily.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.reillyfamily.game.lwjglwrapper.GLFWException;
-import uk.co.reillyfamily.game.lwjglwrapper.Window;
+import uk.co.reillyfamily.game.lwjglwrapper.*;
 
 /**
  * Created by stuart on 20/11/16.
@@ -23,14 +22,18 @@ public class Main {
             LOGGER.error("Failed to crate window!", e);
             return;
         }
+
+        VertexBuffer buffer = VertexBuffer.create(BufferType.ARRAY, DataType.FLOAT);
+
         window.show();
-        LOGGER.info("Showing window");
 
+        LOGGER.info("Finished initialisation, entering game loop");
         while (!window.shouldClose()) {
-
+            window.update();
         }
 
         window.close();
-        LOGGER.info("Closed window");
+        buffer.close();
+        LOGGER.info("Exiting");
     }
 }

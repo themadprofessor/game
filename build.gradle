@@ -5,7 +5,6 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = "uk.co.reillyfamily.game.Main"
-sourceCompatibility = 1.5
 
 repositories {
     mavenCentral()
