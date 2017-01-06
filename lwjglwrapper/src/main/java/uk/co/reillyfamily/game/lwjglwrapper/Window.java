@@ -48,6 +48,7 @@ public class Window implements AutoCloseable {
         glfwMakeContextCurrent(handle);
         glfwShowWindow(handle);
         GL.createCapabilities();
+        ErrorUtil.checkGlError();
         LOGGER.debug("Created Window");
     }
 

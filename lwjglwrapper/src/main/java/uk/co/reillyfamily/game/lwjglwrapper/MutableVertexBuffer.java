@@ -28,7 +28,6 @@ public class MutableVertexBuffer extends VertexBuffer {
     }
 
     public void addData(Buffer data) {
-        bind();
         this.size += data.capacity();
 
         switch (dataType) {
@@ -38,7 +37,7 @@ public class MutableVertexBuffer extends VertexBuffer {
             case UINT: case INT: glBufferData(type.getGlCode(), (IntBuffer) data, GL_STATIC_DRAW); break;
             case USHORT: case SHORT: glBufferData(type.getGlCode(), (ShortBuffer) data, GL_STATIC_DRAW); break;
         }
-        unbind();
+        ErrorUtil.checkGlError();
         LOGGER.trace("Added data to VertexBuffer");
     }
 }

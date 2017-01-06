@@ -28,6 +28,7 @@ public class ImmutableVertexBuffer extends VertexBuffer {
             case USHORT: case SHORT: glBufferStorage(type.getGlCode(), (ShortBuffer) data, GL_STATIC_DRAW); break;
         }
         unbind();
+        ErrorUtil.checkGlError();
         LOGGER.debug("Creating immutable VertexBuffer");
         LOGGER.trace("VertexBuffer info [Type: {}, DataType: {}, Size: {}]", type, dataType, size);
     }
