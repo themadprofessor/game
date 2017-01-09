@@ -36,13 +36,14 @@ public class VertexArray implements AutoCloseable {
     private VertexArray() {
         handle = glGenVertexArrays();
         attribs = new HashMap<>();
-        ErrorUtil.checkGlError();
     }
 
     public VertexArray setAttribPtr(String id, int entryLen, DataType dataType, boolean normalize, Program program) {
         int loc = attribs.computeIfAbsent(id, name -> glGetAttribLocation(program.getHandle(), name));
         glVertexAttribPointer(loc, entryLen, dataType.getGlCode(), normalize, 0, 0);
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new GLException("Failed to set attrib pointer!", e))
+                .ifPresent(e -> {throw e;});
 
         LOGGER.debug("Set {} attrib pointer", id);
         LOGGER.trace("Attrib Pointer info [id: {}, entryLen: {}, dataType: {}", id, entryLen, dataType);
@@ -51,25 +52,31 @@ public class VertexArray implements AutoCloseable {
 
     public VertexArray enableAttrib(String id) {
         glEnableVertexAttribArray(attribs.get(id));
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new GLException("Failed to enable an attrib!", e))
+                .ifPresent(e -> {throw e;});
         return this;
     }
 
     public VertexArray enableAllAttribs() {
         attribs.values().forEach(GL20::glEnableVertexAttribArray);
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new GLException("Failed to enable an/some/all attribs!", e))
+                .ifPresent(e -> {throw e;});
         return this;
     }
 
     public VertexArray disableAttrib(String id) {
         glDisableVertexAttribArray(attribs.get(id));
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError().map(e -> new GLException("Failed to disable attrib!", e)).ifPresent(e -> {throw e;});
         return this;
     }
 
     public VertexArray disableAllAttribs() {
         attribs.values().forEach(GL20::glDisableVertexAttribArray);
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new GLException("Failed to disable an/some/all attribs!", e))
+                .ifPresent(e -> {throw e;});
         return this;
     }
 
@@ -93,6 +100,5 @@ public class VertexArray implements AutoCloseable {
     @Override
     public void close() {
         glDeleteVertexArrays(handle);
-        ErrorUtil.checkGlError();
     }
 }

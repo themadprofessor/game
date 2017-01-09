@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.*;
 
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBufferData;
 
@@ -37,7 +36,9 @@ public class MutableVertexBuffer extends VertexBuffer {
             case UINT: case INT: glBufferData(type.getGlCode(), (IntBuffer) data, GL_STATIC_DRAW); break;
             case USHORT: case SHORT: glBufferData(type.getGlCode(), (ShortBuffer) data, GL_STATIC_DRAW); break;
         }
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new GLException("Failed to add data to mutable vertex buffer!", e))
+                .ifPresent(e -> {throw e;});
         LOGGER.trace("Added data to VertexBuffer");
     }
 }

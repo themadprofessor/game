@@ -20,7 +20,6 @@ public class Program implements AutoCloseable {
         if (handle == GL_FALSE) {
             throw new ShaderException("Failed to create program!");
         }
-        ErrorUtil.checkGlError();
     }
 
     public Program loadShader(ShaderType type, File file) throws IOException {
@@ -37,7 +36,9 @@ public class Program implements AutoCloseable {
         }
 
         glAttachShader(handle, shader);
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new ShaderException("Failed to attach shader to program!", e))
+                .ifPresent(e -> {throw e;});
         return this;
     }
 
@@ -48,7 +49,6 @@ public class Program implements AutoCloseable {
             throw new ShaderException("Failed to link program: " + log);
         }
 
-        ErrorUtil.checkGlError();
         return this;
     }
 
@@ -65,7 +65,6 @@ public class Program implements AutoCloseable {
     @Override
     public void close() {
         glDeleteProgram(handle);
-        ErrorUtil.checkGlError();
     }
 
     protected int getHandle() {

@@ -1,5 +1,7 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
+import java.util.Optional;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
 
@@ -7,15 +9,15 @@ import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
  * Created by stuart on 12/12/16.
  */
 public class ErrorUtil {
-    public static void checkGlError() {
+    public static Optional<GLException> checkGlError() {
         StringBuilder log = new StringBuilder();
         int code;
         while ((code = glGetError()) != GL_NO_ERROR) {
             log.append(codeToInfo(code)).append(" ");
         }
-        if (log.length() != 0) {
-            throw new GlException(log.toString().trim());
-        }
+        return log.length() != 0 ?
+                Optional.of(new GLException(log.toString().trim())):
+                Optional.empty();
     }
 
     public static String codeToInfo(int code) {

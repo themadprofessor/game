@@ -54,7 +54,6 @@ public abstract class VertexBuffer implements AutoCloseable {
         this.type = type;
         this.dataType = dataType;
         size = 0;
-        ErrorUtil.checkGlError();
     }
 
     VertexBuffer(BufferType type, DataType dataType, Buffer data) {
@@ -87,7 +86,6 @@ public abstract class VertexBuffer implements AutoCloseable {
      */
     public void close() {
         glDeleteBuffers(handle);
-        ErrorUtil.checkGlError();
         LOGGER.debug("Deleted VertexBuffer");
     }
 

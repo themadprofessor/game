@@ -1,8 +1,6 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;

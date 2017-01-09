@@ -48,7 +48,9 @@ public class Window implements AutoCloseable {
         glfwMakeContextCurrent(handle);
         glfwShowWindow(handle);
         GL.createCapabilities();
-        ErrorUtil.checkGlError();
+        ErrorUtil.checkGlError()
+                .map(e -> new GLException("Failed to initialise OpenGL!", e))
+                .ifPresent(e -> {throw e;});
         LOGGER.debug("Created Window");
     }
 
