@@ -3,6 +3,7 @@ package uk.co.reillyfamily.game.lwjglwrapper;
 import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.reillyfamily.game.lwjglwrapper.util.DataType;
 
 import java.nio.*;
 

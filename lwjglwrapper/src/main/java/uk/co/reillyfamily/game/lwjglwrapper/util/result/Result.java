@@ -1,4 +1,4 @@
-package uk.co.reillyfamily.game.lwjglwrapper.result;
+package uk.co.reillyfamily.game.lwjglwrapper.util.result;
 
 import com.google.common.base.Preconditions;
 

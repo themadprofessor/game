@@ -4,7 +4,8 @@ import org.lwjgl.BufferUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.reillyfamily.game.lwjglwrapper.*;
-import uk.co.reillyfamily.game.lwjglwrapper.result.Result;
+import uk.co.reillyfamily.game.lwjglwrapper.util.DataType;
+import uk.co.reillyfamily.game.lwjglwrapper.util.FrameTimeCounter;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,6 @@ public class Main {
             return;
         }
 
-
         VertexBuffer buffer = VertexBuffer.create(BufferType.ARRAY, DataType.FLOAT);
         VertexArray array = VertexArray.create();
         FloatBuffer data;
@@ -72,12 +72,21 @@ public class Main {
 
         window.show();
 
+        String titleBase = "Test    Frame Time: ";
+        String titleEnd = "ms";
+        int baseLen = titleBase.length();
+        StringBuilder titleBuilder = new StringBuilder(titleBase);
+        FrameTimeCounter counter = new FrameTimeCounter();
+
         LOGGER.info("Finished initialisation, entering game loop");
+        glClearColor(0.5f, 0.5f, 0.5f, 1);
         while (!window.shouldClose()) {
-            glClearColor(0.5f, 0.5f, 0.5f, 1);
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
             window.update();
+            titleBuilder.append(counter.tick()/1000000).append(titleEnd);
+            window.setTitle(titleBuilder.toString());
+            titleBuilder.setLength(baseLen);
         }
 
         buffer.close();

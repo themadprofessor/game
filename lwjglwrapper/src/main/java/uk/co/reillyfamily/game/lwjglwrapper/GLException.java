@@ -1,5 +1,7 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
+import uk.co.reillyfamily.game.lwjglwrapper.util.ErrorUtil;
+
 /**
  * Created by stuart on 12/12/16.
  */

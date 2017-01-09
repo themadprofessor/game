@@ -1,4 +1,6 @@
-package uk.co.reillyfamily.game.lwjglwrapper;
+package uk.co.reillyfamily.game.lwjglwrapper.util;
+
+import uk.co.reillyfamily.game.lwjglwrapper.GLException;
 
 import java.util.Optional;
 

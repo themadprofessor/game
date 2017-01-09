@@ -1,6 +1,7 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
 import com.google.common.io.Files;
+import uk.co.reillyfamily.game.lwjglwrapper.util.ErrorUtil;
 
 import java.io.File;
 import java.io.IOException;

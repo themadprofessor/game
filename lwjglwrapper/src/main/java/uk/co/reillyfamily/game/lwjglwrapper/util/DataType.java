@@ -1,4 +1,4 @@
-package uk.co.reillyfamily.game.lwjglwrapper;
+package uk.co.reillyfamily.game.lwjglwrapper.util;
 
 import static org.lwjgl.opengl.GL11.*;
 

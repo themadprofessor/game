@@ -6,8 +6,12 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.reillyfamily.game.lwjglwrapper.util.ErrorUtil;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 /**
  * A GLFW window, which currently only allows for one window, which is bound to an OpenGL context.
@@ -60,6 +64,11 @@ public class Window implements AutoCloseable {
     public void update() {
         glfwSwapBuffers(handle);
         glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    public void setTitle(String title) {
+        glfwSetWindowTitle(handle, title);
     }
 
     /**

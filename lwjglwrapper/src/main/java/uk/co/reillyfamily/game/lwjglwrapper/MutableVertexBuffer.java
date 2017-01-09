@@ -2,6 +2,8 @@ package uk.co.reillyfamily.game.lwjglwrapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.reillyfamily.game.lwjglwrapper.util.DataType;
+import uk.co.reillyfamily.game.lwjglwrapper.util.ErrorUtil;
 
 import java.nio.*;
 
