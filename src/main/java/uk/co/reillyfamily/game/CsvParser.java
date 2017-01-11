@@ -1,17 +1,9 @@
 package uk.co.reillyfamily.game;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.primitives.Floats;
-import com.google.common.primitives.Primitives;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.List;
-import java.util.function.BinaryOperator;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**

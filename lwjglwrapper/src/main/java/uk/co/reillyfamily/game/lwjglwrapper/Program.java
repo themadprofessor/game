@@ -53,6 +53,10 @@ public class Program implements AutoCloseable {
         return this;
     }
 
+    public int getUniformLoc(String name) {
+        return glGetUniformLocation(handle, name);
+    }
+
     public Program bind() {
         glUseProgram(handle);
         return this;

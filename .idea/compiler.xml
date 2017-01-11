@@ -6,6 +6,8 @@
       <module name="game_test" target="1.8" />
       <module name="lwjglwrapper_main" target="1.8" />
       <module name="lwjglwrapper_test" target="1.8" />
+      <module name="modelparser_main" target="1.8" />
+      <module name="modelparser_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

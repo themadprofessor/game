@@ -4,16 +4,14 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = "uk.co.reillyfamily.game.Main"
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile project('lwjglwrapper')
+    //compile project('game')
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
-    //compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    compile group: 'org.joml', name: 'joml', version: '1.9.0'
 
     runtime group: 'org.tinylog', name: 'tinylog', version: '1.1'
     runtime group: 'org.tinylog', name: 'slf4j-binding', version: '1.1'

@@ -8,6 +8,7 @@ import uk.co.reillyfamily.game.lwjglwrapper.util.ErrorUtil;
 import java.nio.*;
 
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL30.GL_MAP_READ_BIT;
 import static org.lwjgl.opengl.GL44.glBufferStorage;
 
 /**
@@ -17,19 +18,18 @@ public class ImmutableVertexBuffer extends VertexBuffer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableVertexBuffer.class);
 
     ImmutableVertexBuffer(BufferType type, DataType dataType, Buffer data) {
-        super(type, dataType, data);
+        super(type, dataType);
 
         bind();
         this.size += data.capacity();
 
         switch (dataType) {
-            case FLOAT: glBufferStorage(type.getGlCode(), (FloatBuffer) data, GL_STATIC_DRAW); break;
-            case DOUBLE: glBufferStorage(type.getGlCode(), (DoubleBuffer) data, GL_STATIC_DRAW); break;
-            case UBYTE: case BYTE: glBufferStorage(type.getGlCode(), (ByteBuffer) data, GL_STATIC_DRAW); break;
-            case UINT: case INT: glBufferStorage(type.getGlCode(), (IntBuffer) data, GL_STATIC_DRAW); break;
-            case USHORT: case SHORT: glBufferStorage(type.getGlCode(), (ShortBuffer) data, GL_STATIC_DRAW); break;
+            case FLOAT: glBufferStorage(type.getGlCode(), (FloatBuffer) data, GL_MAP_READ_BIT); break;
+            case DOUBLE: glBufferStorage(type.getGlCode(), (DoubleBuffer) data, GL_MAP_READ_BIT); break;
+            case UBYTE: case BYTE: glBufferStorage(type.getGlCode(), (ByteBuffer) data, GL_MAP_READ_BIT); break;
+            case UINT: case INT: glBufferStorage(type.getGlCode(), (IntBuffer) data, GL_MAP_READ_BIT); break;
+            case USHORT: case SHORT: glBufferStorage(type.getGlCode(), (ShortBuffer) data, GL_MAP_READ_BIT); break;
         }
-        unbind();
         ErrorUtil.checkGlError()
                 .map(e -> new GLException("Failed to create immutable vertex buffer!", e))
                 .ifPresent(e -> {throw e;});

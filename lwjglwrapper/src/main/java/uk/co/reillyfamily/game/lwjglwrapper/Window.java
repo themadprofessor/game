@@ -1,5 +1,6 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
+import javafx.scene.input.KeyCode;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -85,6 +86,24 @@ public class Window implements AutoCloseable {
     public void hide() {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         LOGGER.debug("Hiding Window");
+    }
+
+    /**
+     * Returns true if the given GLFW keycode is currently marked as pressed, false otherwise
+     * @param key The GLFW keycode of the the key.
+     * @return Returns true if the given key is pressed, false otherwise.
+     */
+    public boolean isKeyPressed(int key) {
+        return glfwGetKey(handle, key) == GLFW_PRESS;
+    }
+
+    /**
+     * Returns true if the given GLFW keycode is currently marked as released, false otherwise
+     * @param key The GLFW keycode of the the key.
+     * @return Returns true if the given key is released, false otherwise.
+     */
+    public boolean isKeyReleased(int key) {
+        return glfwGetKey(handle, key) == GLFW_RELEASE;
     }
 
     /**

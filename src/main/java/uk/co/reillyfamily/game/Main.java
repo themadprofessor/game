@@ -48,11 +48,8 @@ public class Main {
             return;
         }
 
-        VertexBuffer buffer = VertexBuffer.create(BufferType.ARRAY, DataType.FLOAT);
-        VertexArray array = VertexArray.create();
-        FloatBuffer data;
+        FloatBuffer data = null;
         try {
-            buffer.bind();
             Float[] coords = new CsvParser().parse(new File("test.csv"));
             float[] real_coords = new float[coords.length];
             for (int i = 0; i < coords.length; i++) {
@@ -61,14 +58,14 @@ public class Main {
             data = BufferUtils.createFloatBuffer(coords.length);
             data.put(real_coords);
             data.flip();
-            buffer.addData(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        array.bind();
-        array.setAttribPtr("position", 3, DataType.FLOAT, false, program);
-        array.enableAllAttribs();
+        Model model = new Model();
+        model.addData(data, DataType.FLOAT, "position", 3, false, program);
+        Scene scene = new Scene();
+        scene.addNode(model);
 
         window.show();
 
@@ -79,9 +76,9 @@ public class Main {
         FrameTimeCounter counter = new FrameTimeCounter();
 
         LOGGER.info("Finished initialisation, entering game loop");
-        glClearColor(0.5f, 0.5f, 0.5f, 1);
+        glClearColor(0.1f, 0.6f, 1f, 1);
         while (!window.shouldClose()) {
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            scene.draw(program);
 
             window.update();
             titleBuilder.append(counter.tick()/1000000).append(titleEnd);
@@ -89,8 +86,7 @@ public class Main {
             titleBuilder.setLength(baseLen);
         }
 
-        buffer.close();
-        array.close();
+        model.close();
         program.close();
         window.close();
         LOGGER.info("Exiting");

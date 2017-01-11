@@ -8,6 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjglwrapper/lwjglwrapper.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjglwrapper/lwjglwrapper.iml" group="lwjglwrapper" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjglwrapper/lwjglwrapper_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjglwrapper/lwjglwrapper_main.iml" group="lwjglwrapper" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjglwrapper/lwjglwrapper_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjglwrapper/lwjglwrapper_test.iml" group="lwjglwrapper" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modelparser/modelparser.iml" filepath="$PROJECT_DIR$/.idea/modules/modelparser/modelparser.iml" group="modelparser" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modelparser/modelparser_main.iml" filepath="$PROJECT_DIR$/.idea/modules/modelparser/modelparser_main.iml" group="modelparser" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modelparser/modelparser_test.iml" filepath="$PROJECT_DIR$/.idea/modules/modelparser/modelparser_test.iml" group="modelparser" />
     </modules>
   </component>
 </project>

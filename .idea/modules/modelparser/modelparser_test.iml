@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":modelparser:test" external.linked.project.path="$MODULE_DIR$/../../../modelparser" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="uk.co.reillyfamily.game" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+    <output-test url="file://$MODULE_DIR$/../../../modelparser/build/classes/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../modelparser/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../modelparser/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../modelparser/src/test/resources" type="java-test-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="modelparser_main" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.joml:joml:1.9.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.tinylog:tinylog:1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.tinylog:slf4j-binding:1.1" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="modelparser_main" />
+</module>
