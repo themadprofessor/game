@@ -4,12 +4,14 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 
+mainClassName = 'uk.co.reillyfamily.game.modelparser.Main'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    //compile project('game')
+    compile project(':app')
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
     compile group: 'org.joml', name: 'joml', version: '1.9.0'
 

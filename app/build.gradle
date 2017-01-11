@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile project('lwjglwrapper')
+    compile project(':lwjglwrapper')
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
     //compile group: 'com.google.guava', name: 'guava', version: '19.0'
 
