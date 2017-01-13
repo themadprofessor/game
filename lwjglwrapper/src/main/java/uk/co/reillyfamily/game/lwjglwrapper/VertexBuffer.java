@@ -59,6 +59,7 @@ public abstract class VertexBuffer implements AutoCloseable {
 
     VertexBuffer(BufferType type, DataType dataType, Buffer data) {
         this(type, dataType);
+        bind();
         addData(data);
     }
 

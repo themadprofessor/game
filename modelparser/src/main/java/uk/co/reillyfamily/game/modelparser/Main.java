@@ -1,16 +1,10 @@
 package uk.co.reillyfamily.game.modelparser;
 
-import org.joml.Vector3f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.reillyfamily.game.unloaded.UnloadedModel;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 /**
  * Created by stuart on 10/01/17.

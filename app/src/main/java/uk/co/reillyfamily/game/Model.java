@@ -7,15 +7,17 @@ import uk.co.reillyfamily.game.lwjglwrapper.Program;
 import uk.co.reillyfamily.game.lwjglwrapper.VertexArray;
 import uk.co.reillyfamily.game.lwjglwrapper.VertexBuffer;
 import uk.co.reillyfamily.game.lwjglwrapper.util.DataType;
+import uk.co.reillyfamily.game.unloaded.UnloadedModel;
 
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 /**
@@ -24,6 +26,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 public class Model extends Node implements AutoCloseable {
     private VertexArray vertexArray;
     private Set<VertexBuffer> vertexBuffers;
+    private VertexBuffer orderBuffer;
     private Matrix4f mat;
     private FloatBuffer buff;
 
@@ -32,6 +35,16 @@ public class Model extends Node implements AutoCloseable {
         vertexBuffers = new HashSet<>();
         mat = new Matrix4f();
         buff = BufferUtils.createFloatBuffer(16);
+    }
+
+    public Model(UnloadedModel unloaded, Program program) {
+        this();
+        FloatBuffer vertBuff = BufferUtils.createFloatBuffer(unloaded.getVertices().length).put(unloaded.getVertices());
+        IntBuffer orderBuff = BufferUtils.createIntBuffer(unloaded.getFaces().length).put(unloaded.getFaces());
+        vertBuff.flip();
+        orderBuff.flip();
+        addData(vertBuff, DataType.FLOAT,"position", 3, false, program);
+        orderBuffer = VertexBuffer.create(false, BufferType.ELEMENT_ARRAY, DataType.UINT, orderBuff);
     }
 
     public void addData(VertexBuffer data, String id, int entryLen, boolean normalize, Program program) {
@@ -50,6 +63,7 @@ public class Model extends Node implements AutoCloseable {
     public void render(List<Matrix4f> mats, Program program, int matLoc) {
         buff.clear();
         vertexArray.bind();
+        orderBuffer.bind();
         mats.add(mat);
         mats.stream().reduce((matrix4f, matrix4f2) -> {
             Matrix4f mat = new Matrix4f();
@@ -59,7 +73,7 @@ public class Model extends Node implements AutoCloseable {
         mats.remove(mats.size() -1);
 
         glUniformMatrix4fv(matLoc, false, buff);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, orderBuffer.getSize(), orderBuffer.getDataType().getGlCode(), 0);
     }
 
     @Override

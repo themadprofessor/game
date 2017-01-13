@@ -1,15 +1,19 @@
 package uk.co.reillyfamily.game;
 
-import org.lwjgl.BufferUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.reillyfamily.game.lwjglwrapper.*;
-import uk.co.reillyfamily.game.lwjglwrapper.util.DataType;
+import uk.co.reillyfamily.game.lwjglwrapper.GLFWException;
+import uk.co.reillyfamily.game.lwjglwrapper.Program;
+import uk.co.reillyfamily.game.lwjglwrapper.ShaderType;
+import uk.co.reillyfamily.game.lwjglwrapper.Window;
 import uk.co.reillyfamily.game.lwjglwrapper.util.FrameTimeCounter;
+import uk.co.reillyfamily.game.unloaded.UnloadedModel;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.FloatBuffer;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.GL_SHADING_LANGUAGE_VERSION;
@@ -48,22 +52,19 @@ public class Main {
             return;
         }
 
-        FloatBuffer data = null;
-        try {
-            Float[] coords = new CsvParser().parse(new File("test.csv"));
-            float[] real_coords = new float[coords.length];
-            for (int i = 0; i < coords.length; i++) {
-                real_coords[i] = coords[i];
-            }
-            data = BufferUtils.createFloatBuffer(coords.length);
-            data.put(real_coords);
-            data.flip();
+        Model model;
+        try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(
+                Files.newInputStream(new File("../modelparser/teapot.model").toPath())))) {
+            UnloadedModel unloadedModel = (UnloadedModel) in.readObject();
+            model = new Model(unloadedModel, program);
         } catch (IOException e) {
+            LOGGER.error("Failed to load model", e);
+            return;
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
 
-        Model model = new Model();
-        model.addData(data, DataType.FLOAT, "position", 3, false, program);
         Scene scene = new Scene();
         scene.addNode(model);
 
