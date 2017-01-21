@@ -1,8 +1,11 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
-import javafx.scene.input.KeyCode;
+import org.joml.Math;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallbackI;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 import org.slf4j.Logger;
@@ -10,9 +13,7 @@ import org.slf4j.LoggerFactory;
 import uk.co.reillyfamily.game.lwjglwrapper.util.ErrorUtil;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * A GLFW window, which currently only allows for one window, which is bound to an OpenGL context.
@@ -23,6 +24,9 @@ public class Window implements AutoCloseable {
     private final long handle;
     private int width;
     private int height;
+    private Matrix4f projectionMatrix;
+    private float fov;
+    private float ratio;
 
     /**
      * Creates a new window with the given width, height and title at the centre of the screen.
@@ -34,6 +38,8 @@ public class Window implements AutoCloseable {
     public Window(int width, int height, String title) throws GLFWException {
         this.width = width;
         this.height = height;
+        this.fov = (float) (Math.PI/2);
+        this.ratio = width/height;
 
         glfwSetErrorCallback(GLFWErrorCallback.createThrow());
         if (!glfwInit()) {
@@ -49,6 +55,8 @@ public class Window implements AutoCloseable {
 
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         glfwSetWindowPos(handle, (vidMode.width() - width)/2, (vidMode.height() - height)/2);
+        glfwSetWindowSizeCallback(handle, (window, width1, height1) ->
+                projectionMatrix.setPerspective(fov, width1 / height1, 0.1f, 100f));
 
         glfwMakeContextCurrent(handle);
         glfwShowWindow(handle);
@@ -56,6 +64,7 @@ public class Window implements AutoCloseable {
         ErrorUtil.checkGlError()
                 .map(e -> new GLException("Failed to initialise OpenGL!", e))
                 .ifPresent(e -> {throw e;});
+        projectionMatrix = new Matrix4f().setPerspective(fov, width/height, 0.1f, 100f);
         LOGGER.debug("Created Window");
     }
 
@@ -93,8 +102,8 @@ public class Window implements AutoCloseable {
      * @param key The GLFW keycode of the the key.
      * @return Returns true if the given key is pressed, false otherwise.
      */
-    public boolean isKeyPressed(int key) {
-        return glfwGetKey(handle, key) == GLFW_PRESS;
+    public boolean isKeyPressed(KeyCode key) {
+        return glfwGetKey(handle, key.getCode()) == GLFW_PRESS;
     }
 
     /**
@@ -102,8 +111,8 @@ public class Window implements AutoCloseable {
      * @param key The GLFW keycode of the the key.
      * @return Returns true if the given key is released, false otherwise.
      */
-    public boolean isKeyReleased(int key) {
-        return glfwGetKey(handle, key) == GLFW_RELEASE;
+    public boolean isKeyReleased(KeyCode key) {
+        return glfwGetKey(handle, key.getCode()) == GLFW_RELEASE;
     }
 
     /**
@@ -123,5 +132,9 @@ public class Window implements AutoCloseable {
         glfwDestroyWindow(handle);
         glfwTerminate();
         LOGGER.debug("Closed Window");
+    }
+
+    public Matrix4fc getProjectionMatrix() {
+        return projectionMatrix;
     }
 }

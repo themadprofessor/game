@@ -1,6 +1,7 @@
 package uk.co.reillyfamily.game;
 
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.lwjgl.BufferUtils;
 import uk.co.reillyfamily.game.lwjglwrapper.BufferType;
 import uk.co.reillyfamily.game.lwjglwrapper.Program;
@@ -27,13 +28,11 @@ public class Model extends Node implements AutoCloseable {
     private VertexArray vertexArray;
     private Set<VertexBuffer> vertexBuffers;
     private VertexBuffer orderBuffer;
-    private Matrix4f mat;
     private FloatBuffer buff;
 
     public Model() {
         vertexArray = VertexArray.create();
         vertexBuffers = new HashSet<>();
-        mat = new Matrix4f();
         buff = BufferUtils.createFloatBuffer(16);
     }
 
@@ -60,7 +59,8 @@ public class Model extends Node implements AutoCloseable {
     }
 
     @Override
-    public void render(List<Matrix4f> mats, Program program, int matLoc) {
+    public void render(List<Matrix4fc> mats, Program program, int matLoc) {
+        applyTransform();
         buff.clear();
         vertexArray.bind();
         orderBuffer.bind();

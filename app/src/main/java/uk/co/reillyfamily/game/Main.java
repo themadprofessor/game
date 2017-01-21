@@ -1,11 +1,9 @@
 package uk.co.reillyfamily.game;
 
+import org.joml.Vector3f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.reillyfamily.game.lwjglwrapper.GLFWException;
-import uk.co.reillyfamily.game.lwjglwrapper.Program;
-import uk.co.reillyfamily.game.lwjglwrapper.ShaderType;
-import uk.co.reillyfamily.game.lwjglwrapper.Window;
+import uk.co.reillyfamily.game.lwjglwrapper.*;
 import uk.co.reillyfamily.game.lwjglwrapper.util.FrameTimeCounter;
 import uk.co.reillyfamily.game.unloaded.UnloadedModel;
 
@@ -14,6 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.file.Files;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.GL_SHADING_LANGUAGE_VERSION;
@@ -52,11 +54,14 @@ public class Main {
             return;
         }
 
-        Model model;
+        Model modelMove;
+        Model modelStationary;
         try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(
                 Files.newInputStream(new File("../modelparser/teapot.model").toPath())))) {
             UnloadedModel unloadedModel = (UnloadedModel) in.readObject();
-            model = new Model(unloadedModel, program);
+            modelMove = new Model(unloadedModel, program);
+            modelStationary = new Model(unloadedModel, program);
+            modelStationary.translate(new Vector3f(3,0,0)).applyTransform();
         } catch (IOException e) {
             LOGGER.error("Failed to load model", e);
             return;
@@ -65,8 +70,8 @@ public class Main {
             return;
         }
 
-        Scene scene = new Scene();
-        scene.addNode(model);
+        Scene scene = new Scene(window);
+        scene.addNode(modelMove).addNode(modelStationary);
 
         window.show();
 
@@ -76,7 +81,22 @@ public class Main {
         StringBuilder titleBuilder = new StringBuilder(titleBase);
         FrameTimeCounter counter = new FrameTimeCounter();
 
+        //Eventually will be done through parsing a config file
+        InputThread inputThread = new InputThread(window);
+        inputThread.setAction(KeyCode.RIGHT, () -> modelMove.translate(new Vector3f(1,0,0)));
+        inputThread.setAction(KeyCode.LEFT, () -> modelMove.translate(new Vector3f(-1,0,0)));
+        inputThread.setAction(KeyCode.UP, () -> modelMove.translate(new Vector3f(0,0,-1)));
+        inputThread.setAction(KeyCode.DOWN, () -> modelMove.translate(new Vector3f(0,0,1)));
+        inputThread.setAction(KeyCode.D, () -> scene.translate(new Vector3f(-1,0,0)));
+        inputThread.setAction(KeyCode.A, () -> scene.translate(new Vector3f(1,0,0)));
+        inputThread.setAction(KeyCode.W, () -> scene.translate(new Vector3f(0,0,1)));
+        inputThread.setAction(KeyCode.S, () -> scene.translate(new Vector3f(0,0,-1)));
+
+        ScheduledExecutorService inputService = Executors.newSingleThreadScheduledExecutor();
+        inputService.scheduleAtFixedRate(inputThread, 0, 30, TimeUnit.MILLISECONDS);
+
         LOGGER.info("Finished initialisation, entering game loop");
+        glEnable(GL_DEPTH_TEST);
         glClearColor(0.1f, 0.6f, 1f, 1);
         while (!window.shouldClose()) {
             scene.draw(program);
@@ -87,9 +107,10 @@ public class Main {
             titleBuilder.setLength(baseLen);
         }
 
-        model.close();
+        modelMove.close();
         program.close();
         window.close();
+        inputService.shutdownNow();
         LOGGER.info("Exiting");
     }
 }

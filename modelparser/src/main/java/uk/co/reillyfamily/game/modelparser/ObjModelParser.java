@@ -45,7 +45,7 @@ public class ObjModelParser implements ModelParser {
                         if (split.length != 4) {
                             LOGGER.error("Face definition must contain 3 values [{}]", line);
                         } else {
-                            faces.add(toVectori(Arrays.copyOfRange(split, 1, split.length)));
+                            faces.add(toVectori(Arrays.copyOfRange(split, 1, split.length)).sub(1,1,1));
                         }
                         break;
                     default:
