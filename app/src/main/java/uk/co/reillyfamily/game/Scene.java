@@ -70,7 +70,8 @@ public class Scene implements Transformable {
         return this;
     }
 
-    public Scene applyTransform() {
+    @Override
+    public Transformable applyTransform() {
         viewMatrix.translate(translation).rotate(rotation).scale(scale);
         translation.zero();
         rotation.identity();

@@ -40,7 +40,6 @@ public class Node implements Renderable, Transformable {
     @Override
     public void render(List<Matrix4fc> mats, Program program, int matLoc) {
         mats.add(mat);
-        applyTransform();
         subnodes.forEach(node -> node.render(mats, program, matLoc));
         mats.remove(mats.size()-1);
     }
@@ -63,7 +62,8 @@ public class Node implements Renderable, Transformable {
         return this;
     }
 
-    public Node applyTransform() {
+    @Override
+    public Transformable applyTransform() {
         mat.translate(translation).rotate(rotation).scale(scale);
         translation.zero();
         rotation.identity();

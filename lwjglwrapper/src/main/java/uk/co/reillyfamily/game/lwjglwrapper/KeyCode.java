@@ -1,16 +1,13 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
- * Created by stuart on 10/01/17.
+ * A type-safe wrapper to GLFW's key code enums.
  */
 public enum KeyCode {
     UNKNOWN(GLFW_KEY_UNKNOWN), SPACE(GLFW_KEY_SPACE), APOSTROPHE(GLFW_KEY_APOSTROPHE), COMMA(GLFW_KEY_COMMA),
@@ -40,25 +37,27 @@ public enum KeyCode {
     RIGHT_CONTROL(GLFW_KEY_RIGHT_CONTROL), RIGHT_ALT(GLFW_KEY_RIGHT_ALT), RIGHT_SUPER(GLFW_KEY_RIGHT_SUPER),
     MENU(GLFW_KEY_MENU), LAST(GLFW_KEY_LAST);
 
-
-    private static final List<KeyCode> KEYS = Stream.of(values())
-            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-
     private int code;
 
     KeyCode(int code) {
         this.code = code;
     }
 
+    /**
+     * Get the GLFW int value of this key code.
+     * @return The GLFW int value of this key code.
+     */
     public int getCode() {
         return code;
     }
 
+     /**
+     * Convert the given GLFW int code into the corresponding KeyCode enum, returning the enum in an optional, or
+     * an empty optional if the given code is not for a known key code.
+     * @param code The GLFW int code to be converted.
+     * @return The KeyCode value for the given code.
+     */
     public static Optional<KeyCode> fromCode(int code) {
-        return KEYS.stream().filter(keyCode -> keyCode.code == code).findFirst();
-    }
-
-    public static List<KeyCode> valuesList() {
-        return KEYS;
+        return Arrays.stream(values()).filter(keyCode -> keyCode.code == code).findFirst();
     }
 }

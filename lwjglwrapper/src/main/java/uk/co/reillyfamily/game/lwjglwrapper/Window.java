@@ -1,11 +1,11 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
+import com.google.common.base.Preconditions;
 import org.joml.Math;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.glfw.GLFWWindowSizeCallbackI;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 import org.slf4j.Logger;
@@ -26,7 +26,6 @@ public class Window implements AutoCloseable {
     private int height;
     private Matrix4f projectionMatrix;
     private float fov;
-    private float ratio;
 
     /**
      * Creates a new window with the given width, height and title at the centre of the screen.
@@ -36,10 +35,12 @@ public class Window implements AutoCloseable {
      * @throws GLFWException Thrown if GLFW could not be initialised or the window could not be created.
      */
     public Window(int width, int height, String title) throws GLFWException {
+        Preconditions.checkNotNull(title, "The title of a window cannot be null!");
+        Preconditions.checkArgument(width <= 0 || height <= 0,
+                "Window dimensions cannot be less than or equal to zero!");
         this.width = width;
         this.height = height;
         this.fov = (float) (Math.PI/2);
-        this.ratio = width/height;
 
         glfwSetErrorCallback(GLFWErrorCallback.createThrow());
         if (!glfwInit()) {

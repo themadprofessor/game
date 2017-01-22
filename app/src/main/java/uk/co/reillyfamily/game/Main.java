@@ -73,8 +73,6 @@ public class Main {
         Scene scene = new Scene(window);
         scene.addNode(modelMove).addNode(modelStationary);
 
-        window.show();
-
         String titleBase = "Test    Frame Time: ";
         String titleEnd = "ms";
         int baseLen = titleBase.length();
@@ -96,6 +94,7 @@ public class Main {
         inputService.scheduleAtFixedRate(inputThread, 0, 30, TimeUnit.MILLISECONDS);
 
         LOGGER.info("Finished initialisation, entering game loop");
+        window.show();
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.1f, 0.6f, 1f, 1);
         while (!window.shouldClose()) {

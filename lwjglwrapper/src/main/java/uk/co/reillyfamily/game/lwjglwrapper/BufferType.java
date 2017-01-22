@@ -1,6 +1,7 @@
 package uk.co.reillyfamily.game.lwjglwrapper;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
@@ -15,7 +16,7 @@ import static org.lwjgl.opengl.GL43.GL_SHADER_STORAGE_BUFFER;
 import static org.lwjgl.opengl.GL44.GL_QUERY_BUFFER;
 
 /**
- * Created by stuart on 12/12/16.
+ * A type-safe wrapper to OpenGL's vertex buffer object types.
  */
 public enum BufferType {
     ARRAY(GL_ARRAY_BUFFER), ELEMENT_ARRAY(GL_ELEMENT_ARRAY_BUFFER), COPY_READ(GL_COPY_READ_BUFFER),
@@ -30,14 +31,23 @@ public enum BufferType {
         this.glCode = glCode;
     }
 
+    /**
+     * Get the OpenGL vertex buffer type int value of this buffer type.
+     * @return The OpenGL vertex buffer type int value of this buffer type.
+     */
     public int getGlCode() {
         return glCode;
     }
 
-    public static BufferType fromCode(final int code) {
+     /**
+     * Convert the given OpenGL int code into the corresponding BufferType enum, returning the enum in an optional, or
+     * an empty optional if the given code is not for a known key code.
+     * @param code The OpenGL int code to be converted.
+     * @return The BufferType value for the given code.
+     */
+    public static Optional<BufferType> fromCode(final int code) {
         return Arrays.stream(BufferType.values())
                 .filter(type -> type.glCode == code)
-                .findFirst()
-                .orElseThrow(() -> new UnsupportedOperationException("Unknown buffer type!"));
+                .findFirst();
     }
 }

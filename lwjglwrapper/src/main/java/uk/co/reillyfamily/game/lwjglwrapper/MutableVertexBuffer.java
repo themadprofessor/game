@@ -11,9 +11,9 @@ import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBufferData;
 
 /**
- * Created by stuart on 23/11/16.
+ * A mutable implementation of VertexBuffer.
  */
-public class MutableVertexBuffer extends VertexBuffer {
+class MutableVertexBuffer extends VertexBuffer {
     private static final Logger LOGGER = LoggerFactory.getLogger(MutableVertexBuffer.class);
 
     MutableVertexBuffer(BufferType type, DataType dataType) {

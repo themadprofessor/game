@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 /**
- * Created by stuart on 23/11/16.
+ * A wrapper to an OpenGL vertex buffer object.
  */
 public abstract class VertexBuffer implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(VertexBuffer.class);

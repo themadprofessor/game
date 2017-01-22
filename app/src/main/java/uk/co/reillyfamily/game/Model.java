@@ -60,7 +60,6 @@ public class Model extends Node implements AutoCloseable {
 
     @Override
     public void render(List<Matrix4fc> mats, Program program, int matLoc) {
-        applyTransform();
         buff.clear();
         vertexArray.bind();
         orderBuffer.bind();

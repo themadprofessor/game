@@ -12,9 +12,9 @@ import static org.lwjgl.opengl.GL30.GL_MAP_READ_BIT;
 import static org.lwjgl.opengl.GL44.glBufferStorage;
 
 /**
- * Created by stuart on 12/12/16.
+ * An immutable implementation of VertexBuffer.
  */
-public class ImmutableVertexBuffer extends VertexBuffer {
+class ImmutableVertexBuffer extends VertexBuffer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImmutableVertexBuffer.class);
 
     ImmutableVertexBuffer(BufferType type, DataType dataType, Buffer data) {
