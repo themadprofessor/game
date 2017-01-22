@@ -99,6 +99,7 @@ public class Main {
         glClearColor(0.1f, 0.6f, 1f, 1);
         while (!window.shouldClose()) {
             scene.draw(program);
+            modelMove.applyTransform();
 
             window.update();
             titleBuilder.append(counter.tick()/1000000).append(titleEnd);

@@ -36,7 +36,7 @@ public class Window implements AutoCloseable {
      */
     public Window(int width, int height, String title) throws GLFWException {
         Preconditions.checkNotNull(title, "The title of a window cannot be null!");
-        Preconditions.checkArgument(width <= 0 || height <= 0,
+        Preconditions.checkArgument(width > 0 && height > 0,
                 "Window dimensions cannot be less than or equal to zero!");
         this.width = width;
         this.height = height;
