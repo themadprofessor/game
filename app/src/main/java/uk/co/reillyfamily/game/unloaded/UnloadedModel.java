@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class UnloadedModel implements Serializable {
     private static final long serialVersionUID = 6003203624135877402L;
     private float[] vertices;
+    private float[] normals;
+    private int[] uvs;
     private int[] faces;
 
     public UnloadedModel(float[] vertices, int[] faces) {
@@ -33,6 +35,24 @@ public class UnloadedModel implements Serializable {
 
     public UnloadedModel setFaces(int[] faces) {
         this.faces = faces;
+        return this;
+    }
+
+    public float[] getNormals() {
+        return normals;
+    }
+
+    public UnloadedModel setNormals(float[] normals) {
+        this.normals = normals;
+        return this;
+    }
+
+    public int[] getUvs() {
+        return uvs;
+    }
+
+    public UnloadedModel setUvs(int[] uvs) {
+        this.uvs = uvs;
         return this;
     }
 }
